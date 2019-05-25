@@ -2,6 +2,11 @@ const express = require('express');
 const bodyParser = require("body-parser");
 require('./database/mongodb');
 
+const userRouter = require('./routers/user');
+const surveyRouter = require('./routers/survey');
+const categoryRouter = require('./routers/category');
+const foodRouter = require('./routers/food');
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -19,6 +24,11 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+app.use(userRouter);
+app.use(surveyRouter);
+app.use(categoryRouter);
+app.use(foodRouter);
 
 module.exports = app;
 

@@ -13,6 +13,10 @@ const surveySchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  province: {
+    type: String,
+    required: true
+  },
   foods: [{
     food: {
       type: mongoose.Schema.Types.ObjectId,
