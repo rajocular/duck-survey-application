@@ -6,7 +6,7 @@ const router = express.Router();
 const url = "/api/categories";
 
 router.get(url, (req, res, next) => {
-  Category.find().then(documents => {
+  Category.find().sort('name').then(documents => {
     res.status(200).json({
       categories: documents
     })

@@ -6,7 +6,27 @@ const router = express.Router();
 const url = "/api/foods";
 
 router.get(url, (req, res, next) => {
-  Food.find().then(documents => {
+  // Food.aggregate([
+  //     {
+  //       $group: {_id:"$category", foods: { $push: "$name" }}
+  //     }
+  // ]).exec((err, orders) => {
+  //     res.json(orders);
+  // });
+
+  Food.find().populate('category').sort('name').then(documents => {
+    res.status(200).json({
+      foods: documents
+    })
+  }).catch(error => {
+    res.status(400).json({
+      error
+    })
+  })
+});
+
+router.get(url+"/:id", (req, res, next) => {
+  Food.find({category: req.params.id}).populate('category').then(documents => {
     res.status(200).json({
       foods: documents
     })
@@ -20,12 +40,15 @@ router.get(url, (req, res, next) => {
 router.post(url, authCheck, (req, res, next) => {
   const food = new Food({
     name: req.body.name,
-    category: req.body.category
+    category: req.body.category._id
   });
-
   food.save().then(newFood => {
     res.status(201).json({
-      food: newFood
+      food: Object.assign({}, {
+        _id: newFood._id,
+        name: newFood.name,
+        category: req.body.category
+      })
     })
   }).catch(error => {
     res.status(400).json({

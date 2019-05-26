@@ -1,0 +1,59 @@
+<div class="m-3 d-flex">
+  <div class="flex-grow-1">
+    <mat-form-field *ngIf="selected === 'None'">
+      <mat-select [(value)]="selected"  class="text-center">
+        <mat-option value="None">Add New</mat-option>
+        <mat-option *ngFor="let type of types" [value]="type">
+          {{type}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <form [formGroup]="productForm" (ngSubmit)="submitFood()" *ngIf="selected === 'Food'">
+      <mat-form-field>
+        <input matInput placeholder="Food" formControlName="name">
+      </mat-form-field>
+      <mat-form-field class="px-3">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category" >
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let category of categories" [value]="category">{{category.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="ml-3">Add</button>
+      <button mat-raised-button color="warn" class="ml-3" (click)="selected='None'">Cancel</button>
+    </form>
+    <form [formGroup]="categoryForm" (ngSubmit)="submitCategory()" *ngIf="selected === 'Category'">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Category" formControlName="name">
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="ml-3">Add</button>
+      <button mat-raised-button color="warn" class="ml-3" (click)="selected='None'">Cancel</button>
+    </form>
+  </div>
+
+  <div class="m-auto" *ngIf="categorySelected.length>0 || foodSelected.length>0">
+    <button mat-stroked-button color="warn" (click)="onDelete()">Delete selected</button>
+  </div>
+</div>
+
+<div class="m-3 bg-light">
+  <h4 class="p-3 flex-grow-1">Category List</h4>
+  <mat-selection-list #categoryList>
+    <mat-list-option *ngFor="let category of categories" (click)="onCategorySelect(categoryList)" [value]="category._id">
+      {{category.name}}
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+<div class="m-3 bg-light">
+  <h4 class="p-3 flex-grow-1">Food List</h4>
+  <mat-selection-list #foodList>
+    <mat-list-option *ngFor="let food of foods" (click)="onFoodSelect(foodList)" [value]="food._id" >
+      <div class="d-flex bd-highlight">
+        <div class="col bd-highlight">{{food.name}}</div>
+        <div class="col bd-highlight">{{food.category.name}}</div>
+      </div>
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+

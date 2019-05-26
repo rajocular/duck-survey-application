@@ -1,0 +1,12 @@
+<form [formGroup]="adminForm" class="example-form">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Username" formControlName="username" required>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input type="password" matInput placeholder="Password" formControlName="password" required>
+  </mat-form-field>
+  <mat-error *ngIf="!isAuthenticated">Invalid Username/Password combination</mat-error>
+  <div>
+    <button mat-raised-button color="primary" (click)="loginCheck()">Login</button>
+  </div>
+</form>

@@ -19,8 +19,8 @@ const surveySchema = new mongoose.Schema({
   },
   foods: [{
     food: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Food'
+      type: String,
+      required: true
     },
     quantity: {
       type: Number,
