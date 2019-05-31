@@ -5,11 +5,12 @@ import {SurveyComponent} from "./survey/survey.component";
 
 const routes: Routes = [
   {path:'', component: SurveyComponent},
-  {path: 'admin', loadChildren: "./admin/admin.module#AdminModule"}
+  {path: 'admin', loadChildren: "./admin/admin.module#AdminModule"},
+  {path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule{}

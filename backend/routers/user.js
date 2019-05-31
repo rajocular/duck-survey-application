@@ -4,15 +4,19 @@ const authCheck = require('../middleware/authCheck');
 const router = new express.Router();
 
 router.post('/admin/register', async (req, res) => {
-  console.log(req.body);
-  const user = new User(req.body);
-  try {
-    await user.save();
-    const token = await user.generateAuthToken();
-    res.status(201).json({ user, token })
-  } catch (e) {
-    res.status(400).send(e)
+  let userCount = 0;
+  await User.find().then(documents => userCount=documents.length);
+  if(userCount === 0 ) {
+    const user = new User(req.body);
+    try {
+      await user.save();
+      const token = await user.generateAuthToken();
+      return res.status(201).json({user, token})
+    } catch (e) {
+      return res.status(400).send(e)
+    }
   }
+  res.status(400).json({message: "Registration not allowed"})
 });
 
 router.post('/admin', async (req, res) => {

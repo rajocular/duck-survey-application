@@ -1,3 +1,108 @@
-<p>
-  survey works!
-</p>
+<div class="container" *ngIf="!submitMessage">
+  <img src="assets/duck.jpg" class="img-fluid" alt="Responsive image">
+  <div class="text-center m-3" >
+    <h3>Are you someone who feed the ducks? </h3>
+    <p>If yes, then you are at the right place to contribute</p>
+  </div>
+  <small class="m-3 text-danger">*Please fill in the survey, as your contribution will be used in this awareness attempt</small>
+</div>
+
+<form [formGroup]="surveyForm" (ngSubmit)="submitSurvey()" class="container" *ngIf="!submitMessage">
+  <div class="my-3 p-5 bg-light">
+    <h6>1. Where do you most likely to feed the ducks?</h6>
+    <mat-form-field>
+      <input matInput placeholder="place" formControlName="name" required autocomplete="off">
+    </mat-form-field>
+  </div>
+
+  <div class="my-3 p-5 bg-light">
+    <h6>2. How many ducks would you feed?</h6>
+    <mat-form-field>
+      <input matInput placeholder="ducks" type="number" formControlName="ducks" required autocomplete="off">
+    </mat-form-field>
+  </div>
+
+  <div class="my-3 p-5 bg-light">
+    <h6>3. What are all the foods you feed? (add all that matches)</h6>
+    <form [formGroup]="foodForm" (ngSubmit)="addItem()">
+      <mat-form-field class="pr-3" >
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="food" [(value)]="categorySelected" (selectionChange)="filterFood()" required >
+          <mat-option value="None">None</mat-option>
+          <mat-option *ngFor="let category of categories" [value]="category.name">{{category.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field  *ngIf="categorySelected != 'None'">
+        <mat-label>Food</mat-label>
+        <mat-select formControlName="food" [(value)]="foodSelected" required >
+          <mat-option value="None">None</mat-option>
+          <mat-option *ngFor="let food of foodOptions" [value]="food">{{food.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field  class="px-3" *ngIf="categorySelected != 'None'">
+        <input matInput type="number" placeholder="gms" formControlName="quantity" autocomplete="off">
+      </mat-form-field>
+      <button mat-raised-button color="primary" *ngIf="categorySelected != 'None'" [disabled]="foodSelected == 'None'">Add</button>
+    </form>
+    <mat-chip-list>
+      <mat-chip *ngFor="let item of foodList">
+        {{item.food.name}} - {{item.quantity}}gms
+        <mat-icon matChipRemove (click)="removeItem(item)">cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+
+  <div class="my-3 p-5 bg-light">
+    <h6>4. How often would you feed the ducks? (add all that matches)</h6>
+    <form [formGroup]="dayForm" (ngSubmit)="addTiming()">
+      <div class="d-flex align-items-center">
+        <mat-form-field>
+          <mat-label>Day</mat-label>
+          <mat-select formControlName="day" [(value)]="daySelected" required>
+            <mat-option value="None">None</mat-option>
+            <mat-option *ngFor="let choice of dayChoices" [value]="choice">{{choice}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <ngb-timepicker formControlName="timing" class="px-3" *ngIf="daySelected != 'None'"></ngb-timepicker>
+        <button mat-raised-button color="primary" *ngIf="daySelected != 'None'">Add</button>
+      </div>
+    </form>
+    <div *ngFor="let item of schedule">
+      <h3>{{item.day}}</h3>
+      <mat-chip-list>
+        <mat-chip *ngFor="let timing of item.timings">
+          {{timing}}
+          <mat-icon matChipRemove (click)="removeTime(item.day, timing)">cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="my-3 p-5 bg-light">
+    <div *ngIf="!isDisabled">
+      <h6>You are almost there!</h6>
+      <p>For research purpose, we collect the location information. Click the button or enter the city name</p>
+    </div>
+    <button mat-raised-button color="primary" class="m-3" [disabled]="isDisabled" *ngIf="!isDisabled" (click)="fetchLocation()">Allow Permission</button>
+    <mat-spinner *ngIf="loading"></mat-spinner>
+    <button mat-raised-button color="warn" *ngIf="isDisabled && !loading" (click)="removeLocation()">Remove Permission</button>
+    <div *ngIf="!isDisabled">
+      <mat-form-field class="w-100">
+        <input matInput placeholder="city" formControlName="city" autocomplete="off">
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <input matInput placeholder="country" formControlName="country" autocomplete="off">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <button mat-raised-button color="accent" class="text-center" [disabled]="surveyForm.invalid || foodList.length<=0 || schedule.length<=0">Submit</button>
+  </div>
+</form>
+
+<div class="container" *ngIf="submitMessage">
+  <img src="assets/duck.jpg" class="img-fluid" alt="Responsive image">
+  <h4 class="text-center mt-3">{{submitMessage}}</h4>
+</div>

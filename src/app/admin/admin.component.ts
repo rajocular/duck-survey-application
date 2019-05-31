@@ -1,20 +1,17 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {LoginService} from "../services/login.service";
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit, OnDestroy {
+export class AdminComponent implements OnInit {
 
-  constructor(private loginService: LoginService) { }
+  constructor() { }
 
   ngOnInit() {
+
   }
 
-  ngOnDestroy() {
-    this.loginService.clearLogin()
-  }
 
 }

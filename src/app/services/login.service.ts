@@ -8,7 +8,7 @@ import {Subject} from "rxjs";
 export class LoginService {
   private url = "http://localhost:3000";
   private token: string;
-  private isAuthenticated: boolean;
+  private isAuthenticated = false;
   private authUpdated = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -65,6 +65,14 @@ export class LoginService {
       this.authUpdated.next(false);
       this.router.navigate(['/'])
     });
+  }
+
+  register({username, password, confirmpass}) {
+    this.http.post(this.url+"/admin/register", {username, password}).subscribe(success=>{
+      this.router.navigate(['/admin'])
+    }, data=>{
+      alert(data.error.message)
+    })
   }
 
 }

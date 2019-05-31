@@ -32,11 +32,11 @@ export class AdminFoodComponent implements OnInit {
 
   initForm() {
     this.categoryForm = new FormGroup({
-      name: new FormControl('', {validators: [Validators.required, Validators.pattern("^[a-zA-Z][a-zA-Z0-9]*$")]})
+      name: new FormControl('', {validators: [Validators.pattern("^[a-zA-Z][a-zA-Z0-9 ]*$")]})
     });
 
     this.productForm = new FormGroup({
-      name: new FormControl('', {validators: [Validators.required, Validators.pattern("^[a-zA-Z][a-zA-Z0-9]*$")]}),
+      name: new FormControl('', {validators: [Validators.pattern("^[a-zA-Z][a-zA-Z0-9 ]*$")]}),
       category: new FormControl('')
     })
   }
@@ -59,14 +59,12 @@ export class AdminFoodComponent implements OnInit {
 
   submitCategory() {
     this.categoryService.addCategory(this.categoryForm.value);
-    this.selected = 'None';
     this.categoryForm.reset();
   }
 
   submitFood() {
     this.foodService.addFood(this.productForm.value);
-    this.selected = 'None';
-    this.productForm.reset();
+    this.initForm()
   }
 
   onFoodSelect(list) {

@@ -1,0 +1,13 @@
+<form [formGroup]="adminForm" (ngSubmit)="register()" class="example-form">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Username" formControlName="username" autocomplete="off" required>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input type="password" matInput placeholder="Password" formControlName="password" autocomplete="off" required>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input type="password" matInput placeholder="Confirm Password" formControlName="confirmPassword" (keyup)="checkPassword()" autocomplete="off" required>
+  </mat-form-field>
+  <small class="text-danger" *ngIf="error">passwords do not match</small><br>
+  <button class="m-3" mat-raised-button color="primary" [disabled]="error || adminForm.invalid">Register</button>
+</form>

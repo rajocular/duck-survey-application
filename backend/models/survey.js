@@ -13,14 +13,10 @@ const surveySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  province: {
-    type: String,
-    required: true
-  },
   foods: [{
     food: {
-      type: String,
-      required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Food'
     },
     quantity: {
       type: Number,
@@ -37,10 +33,8 @@ const surveySchema = new mongoose.Schema({
       required: true
     },
     timings: [{
-      timing: {
-        type: Date,
+        type: String,
         required: true
-      }
     }]
   }]
 });

@@ -4,16 +4,17 @@ import {AdminRoutingModule} from "./admin.routing";
 import {CommonModule} from "@angular/common";
 import {AdminComponent} from "./admin.component";
 import {
-  MatButtonModule,
+  MatButtonModule, MatChipsModule,
   MatExpansionModule,
   MatFormFieldModule,
-  MatInputModule, MatListModule,
+  MatInputModule, MatListModule, MatProgressSpinnerModule,
   MatSelectModule
 } from "@angular/material";
 import {ReactiveFormsModule} from "@angular/forms";
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { AdminNavComponent } from './admin-nav/admin-nav.component';
 import { AdminFoodComponent } from './admin-food/admin-food.component';
+import { AdminRegisterComponent } from './admin-register/admin-register.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AdminFoodComponent } from './admin-food/admin-food.component';
     AdminHomeComponent,
     AdminLoginComponent,
     AdminNavComponent,
-    AdminFoodComponent
+    AdminFoodComponent,
+    AdminRegisterComponent
   ],
   imports: [
     AdminRoutingModule,
@@ -33,7 +35,9 @@ import { AdminFoodComponent } from './admin-food/admin-food.component';
     MatButtonModule,
     MatSelectModule,
     MatExpansionModule,
-    MatListModule
+    MatListModule,
+    MatChipsModule,
+    MatProgressSpinnerModule
   ]
 })
 export class  AdminModule{}

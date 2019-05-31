@@ -39,7 +39,7 @@ router.get(url+"/:id", (req, res, next) => {
 
 router.post(url, authCheck, (req, res, next) => {
   const food = new Food({
-    name: req.body.name,
+    name: req.body.name.toLowerCase(),
     category: req.body.category._id
   });
   food.save().then(newFood => {
@@ -60,7 +60,7 @@ router.post(url, authCheck, (req, res, next) => {
 router.put(url+"/:id", authCheck, (req, res, next) => {
   const food = new Food({
     _id: req.params.id,
-    name: req.body.name,
+    name: req.body.name.toLowerCase(),
     category: req.body.category
   });
 

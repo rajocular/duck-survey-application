@@ -18,5 +18,8 @@
         <button type="button" class="btn btn-outline-info">View site</button>
       </a>
     </h6>
+    <h6>
+        <button type="button" class="btn btn-outline-primary" (click)="logout()" *ngIf="authenticated">Logout</button>
+    </h6>
   </div>
 </nav>

@@ -1,0 +1,98 @@
+<h1 class="text-center">Surveys</h1>
+<div class="m-3 bg-light">
+  <div class="p-3">
+    <h4>By Country</h4>
+    <mat-form-field>
+      <mat-select [(value)]="countrySelected"  class="text-center" (selectionChange)="onCountrySelect()">
+        <mat-option value="None">ALL</mat-option>
+        <mat-option *ngFor="let country of countries" [value]="country">
+          {{country}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!loading">
+      <h6>Surveys so far = {{filteredCountries.length}}</h6>
+      <h6>Number of ducks fed = {{duckCount['country']}}</h6>
+      <h6>Popular Food = {{popularFood['country']}}</h6>
+      <h6>Peak hours = {{peakHour['country']}}:00</h6>
+    </div>
+  </div>
+</div>
+
+<div class="m-3 bg-light">
+  <div class="p-3">
+    <h4>By City</h4>
+    <mat-form-field>
+      <mat-select [(value)]="citySelected"  class="text-center" (selectionChange)="onCitySelect()">
+        <mat-option value="None">ALL</mat-option>
+        <mat-option *ngFor="let city of cities" [value]="city">
+          {{city}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!loading">
+      <h6>Surveys so far = {{filteredCities.length}}</h6>
+      <h6>Number of ducks fed = {{duckCount['city']}}</h6>
+      <h6>Popular Food = {{popularFood['city']}}</h6>
+      <h6>Peak hour = {{peakHour['city']}}:00</h6>
+    </div>
+  </div>
+</div>
+
+<div class="m-3 bg-light">
+  <div class="p-3">
+    <h4>By Category</h4>
+    <mat-form-field>
+      <mat-select [(value)]="categorySelected"  class="text-center" (selectionChange)="onCategorySelect()">
+        <mat-option value="None">------</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category.name">
+          {{category.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!loading && categoryData['duckCount']>0">
+      <h6>Surveys so far = {{categoryData['surveyCount']}}</h6>
+      <h6>Number of ducks fed = {{categoryData['duckCount']}}</h6>
+      <h6>location where it is fed the most = {{categoryData['mostPopularCity']}}, {{categoryData['mostPopularCountry']}}</h6>
+      <h6>location where it is fed the least = {{categoryData['leastPopularCity']}}, {{categoryData['leastPopularCountry']}}</h6>
+    </div>
+    <div *ngIf="categoryData['duckCount']==0">
+      <h6>No survey has been recorded for this category</h6>
+    </div>
+  </div>
+</div>
+
+<div class="m-3 bg-light">
+  <div class="p-3">
+    <h4>By Food</h4>
+    <mat-form-field>
+      <mat-select [(value)]="foodSelected"  class="text-center" (selectionChange)="onFoodSelect()">
+        <mat-option value="None">------</mat-option>
+        <mat-option *ngFor="let food of foods" [value]="food.name">
+          {{food.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!loading && foodData['duckCount']>0">
+      <h6>Surveys so far = {{foodData['surveyCount']}}</h6>
+      <h6>Number of ducks fed = {{foodData['duckCount']}}</h6>
+      <h6>location where it is fed the most = {{foodData['mostPopularCity']}}, {{foodData['mostPopularCountry']}}</h6>
+      <h6>location where it is fed the least = {{foodData['leastPopularCity']}}, {{foodData['leastPopularCountry']}}</h6>
+    </div>
+    <div *ngIf="foodData['duckCount']==0">
+      <h6>No survey has been recorded for this category</h6>
+    </div>
+  </div>
+</div>

@@ -19,7 +19,7 @@ router.get(url, (req, res, next) => {
 
 router.post(url, authCheck, (req, res, next) => {
   const category = new Category({
-    name: req.body.name
+    name: req.body.name.toLowerCase()
   });
 
   category.save().then(newCategory => {
@@ -36,7 +36,7 @@ router.post(url, authCheck, (req, res, next) => {
 router.put(url+"/:id", authCheck, (req, res, next) => {
   const category = new Category({
     _id: req.params.id,
-    name: req.body.name
+    name: req.body.name.toLowerCase()
   });
 
   Category.updateOne(category).then(category =>{
