@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require('express');
 const bodyParser = require("body-parser");
 require('./database/mongodb');
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use("/", express.static(path.join(__dirname, "duckfeed")));
+console.log(__dirname)
 
 app.use("/admin", userRouter);
 app.use("/api/surveys", surveyRouter);
