@@ -1,11 +1,11 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Subject} from "rxjs";
-import {Category, Food} from "../models/food.model";
+import {Food} from "../models/food.model";
 
 @Injectable({providedIn:'root'})
 export class FoodService{
-  private url = "http://localhost:3000/api/foods/";
+  private url = "/api/foods/";
   private foodList: Food[] = [];
   private foodUpdateListener = new Subject<Food[]>();
 

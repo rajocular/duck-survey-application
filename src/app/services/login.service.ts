@@ -6,7 +6,6 @@ import {Subject} from "rxjs";
 
 @Injectable({providedIn: 'root'})
 export class LoginService {
-  private url = "http://localhost:3000";
   private token: string;
   private isAuthenticated = false;
   private authUpdated = new Subject<boolean>();
@@ -26,7 +25,7 @@ export class LoginService {
   }
 
   login({username, password}){
-    this.http.post<{user: User, token: string}>(this.url+"/admin", {username, password}).subscribe((result)=>{
+    this.http.post<{user: User, token: string}>("/admin", {username, password}).subscribe((result)=>{
       if(result.token){
         this.token = result.token;
         this.rememberLogin(result.token);
@@ -58,7 +57,7 @@ export class LoginService {
   }
 
   logout() {
-    this.http.post(this.url+ "/admin/logout", '').subscribe(()=>{
+    this.http.post("/admin/logout", '').subscribe(()=>{
       this.clearLogin();
       this.token = null;
       this.isAuthenticated = false;
@@ -68,7 +67,7 @@ export class LoginService {
   }
 
   register({username, password, confirmpass}) {
-    this.http.post(this.url+"/admin/register", {username, password}).subscribe(success=>{
+    this.http.post("/admin/register", {username, password}).subscribe(success=>{
       this.router.navigate(['/admin'])
     }, data=>{
       alert(data.error.message)

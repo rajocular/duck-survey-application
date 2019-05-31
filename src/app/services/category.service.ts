@@ -8,8 +8,8 @@ import {FoodService} from "./food.service";
 export class CategoryService {
   private categories: Category[];
   private categoryUpdateListener = new Subject<Category[]>();
-  private url = "http://localhost:3000/api/categories/";
-  private foodUrl = "http://localhost:3000/api/foods/";
+  private url = "/api/categories/";
+  private foodUrl = "/api/foods/";
 
   constructor(private http: HttpClient, private foodService: FoodService){}
 

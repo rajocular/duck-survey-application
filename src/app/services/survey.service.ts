@@ -5,7 +5,7 @@ import {Subject} from "rxjs";
 
 @Injectable({providedIn:"root"})
 export class SurveyService{
-  private url = "http://localhost:3000/api/surveys/";
+  private url = "/api/surveys/";
   private surveys = [];
   private surveyUpdateListener = new Subject();
 
