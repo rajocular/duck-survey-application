@@ -144,6 +144,7 @@ export class AdminHomeComponent implements OnInit {
 
   onCategorySelect() {
     this.loading = true;
+    this.categoryData = {};
     let countries = {};
     let cities = {};
     let count = 0;
@@ -152,23 +153,27 @@ export class AdminHomeComponent implements OnInit {
       this.surveys.forEach(survey => {
         let country = survey.country;
         let city = survey.city;
+        let isFound = false;
         survey.foods.forEach(foodItem => {
           let category = foodItem.food.category.name;
-          if(category === this.categorySelected){
-            count += 1;
-            duckCount += survey.ducks;
-            if(country in countries){
-              countries[country] += 1
-            }else {
-              countries[country] = 1
-            }
+          if(category === this.categorySelected)
+            isFound = true;
+        });
+        if(isFound){
+          count += 1;
+          duckCount += survey.ducks;
 
-            if(city in cities)
-              cities[city] += 1;
-            else
-              cities[city] = 1
+          if(country in countries){
+            countries[country] += 1
+          }else {
+            countries[country] = 1
           }
-        })
+
+          if(city in cities)
+            cities[city] += 1;
+          else
+            cities[city] = 1
+        }
       });
       this.categoryData['surveyCount'] = count;
       this.categoryData['duckCount'] = duckCount;
@@ -194,6 +199,7 @@ export class AdminHomeComponent implements OnInit {
 
   onFoodSelect() {
     this.loading = true;
+    this.foodData = {};
     let countries = {};
     let cities = {};
     let count = 0;
@@ -202,23 +208,26 @@ export class AdminHomeComponent implements OnInit {
       this.surveys.forEach(survey => {
         let country = survey.country;
         let city = survey.city;
+        let isFound = false;
         survey.foods.forEach(foodItem => {
           let food = foodItem.food.name;
-          if(food === this.foodSelected){
-            count += 1;
-            duckCount += survey.ducks;
-            if(country in countries){
-              countries[country] += 1
-            }else {
-              countries[country] = 1
-            }
-
-            if(city in cities)
-              cities[city] += 1;
-            else
-              cities[city] = 1
+          if(food === this.foodSelected)
+            isFound = true;
+        });
+        if(isFound){
+          count += 1;
+          duckCount += survey.ducks;
+          if(country in countries){
+            countries[country] += 1
+          }else {
+            countries[country] = 1
           }
-        })
+
+          if(city in cities)
+            cities[city] += 1;
+          else
+            cities[city] = 1
+        }
       });
       this.foodData['surveyCount'] = count;
       this.foodData['duckCount'] = duckCount;
