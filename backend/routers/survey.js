@@ -4,7 +4,6 @@ const NodeGeocoder = require('node-geocoder');
 const authCheck = require('../middleware/authCheck');
 const Survey = require('../models/survey');
 const router = express.Router();
-const url = "/api/surveys";
 
 require('dotenv').config();
 
@@ -15,7 +14,7 @@ var options = {
   formatter: null
 };
 
-router.post(url, async (req, res, next) => {
+router.post("", async (req, res, next) => {
   let geocoder = NodeGeocoder(options);
   let result;
   let city = req.body.location.city;
@@ -51,7 +50,7 @@ router.post(url, async (req, res, next) => {
   })
 });
 
-router.get(url, authCheck, (req, res, next) => {
+router.get("", authCheck, (req, res, next) => {
   Survey.find()
     .populate({
       path:'foods.food',
@@ -69,7 +68,7 @@ router.get(url, authCheck, (req, res, next) => {
   })
 });
 
-router.get(url+"/:criteria", authCheck, (req, res, next) => {
+router.get("/:criteria", authCheck, (req, res, next) => {
   Survey.find().distinct(req.params.criteria.toLowerCase()).then(list=>{
     res.status(200).json({
       list
@@ -77,7 +76,7 @@ router.get(url+"/:criteria", authCheck, (req, res, next) => {
   })
 });
 
-router.get(url+"/duckcount", authCheck, (req, res, next) => {
+router.get("/duckcount", authCheck, (req, res, next) => {
   Survey.aggregate([
     { $group: {_id: null, total: {$sum: "$ducks"}}}
   ])
@@ -93,7 +92,7 @@ router.get(url+"/duckcount", authCheck, (req, res, next) => {
   })
 });
 
-router.get(url+"/duckcount/city/:name", authCheck, (req, res, next) => {
+router.get("/duckcount/city/:name", authCheck, (req, res, next) => {
   Survey.aggregate([
     { $match: {city: req.params.name.toLowerCase()}},
     { $group: {_id: null, total: {$sum: "$ducks"}}}
@@ -110,7 +109,7 @@ router.get(url+"/duckcount/city/:name", authCheck, (req, res, next) => {
     })
 });
 
-router.get(url+"/duckcount/country/:name", authCheck, (req, res, next) => {
+router.get("/duckcount/country/:name", authCheck, (req, res, next) => {
   Survey.aggregate([
     { $match: {country: req.params.name.toLowerCase()}},
     { $group: {_id: null, total: {$sum: "$ducks"}}}
@@ -127,7 +126,7 @@ router.get(url+"/duckcount/country/:name", authCheck, (req, res, next) => {
     })
 });
 
-router.get(url+"/count/:criteria/:name", authCheck, (req, res, next) => {
+router.get("/count/:criteria/:name", authCheck, (req, res, next) => {
   let criteria = req.params.criteria.toLowerCase();
 
   Survey.find()
@@ -166,7 +165,7 @@ router.get(url+"/count/:criteria/:name", authCheck, (req, res, next) => {
     });
 });
 
-router.get(url+"/:location/:name", authCheck, (req, res, next) => {
+router.get("/:location/:name", authCheck, (req, res, next) => {
   Survey.find()
     .populate({
       path:'foods.food',

@@ -24,11 +24,16 @@ app.use((req, res, next) => {
   );
   next();
 });
+app.use("/", express.static(path.join(__dirname, "duckfeed")));
 
-app.use(userRouter);
-app.use(surveyRouter);
-app.use(categoryRouter);
-app.use(foodRouter);
+app.use("/admin", userRouter);
+app.use("/api/surveys", surveyRouter);
+app.use("/api/categories", categoryRouter);
+app.use("/api/foods", foodRouter);
+
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "duckfeed", "index.html"));
+});
 
 module.exports = app;
 

@@ -3,9 +3,8 @@ const authCheck = require('../middleware/authCheck');
 
 const Food = require('../models/food');
 const router = express.Router();
-const url = "/api/foods";
 
-router.get(url, (req, res, next) => {
+router.get("", (req, res, next) => {
   // Food.aggregate([
   //     {
   //       $group: {_id:"$category", foods: { $push: "$name" }}
@@ -25,7 +24,7 @@ router.get(url, (req, res, next) => {
   })
 });
 
-router.get(url+"/:id", (req, res, next) => {
+router.get("/:id", (req, res, next) => {
   Food.find({category: req.params.id}).populate('category').then(documents => {
     res.status(200).json({
       foods: documents
@@ -37,7 +36,7 @@ router.get(url+"/:id", (req, res, next) => {
   })
 });
 
-router.post(url, authCheck, (req, res, next) => {
+router.post("", authCheck, (req, res, next) => {
   const food = new Food({
     name: req.body.name.toLowerCase(),
     category: req.body.category._id
@@ -57,7 +56,7 @@ router.post(url, authCheck, (req, res, next) => {
   })
 });
 
-router.put(url+"/:id", authCheck, (req, res, next) => {
+router.put("/:id", authCheck, (req, res, next) => {
   const food = new Food({
     _id: req.params.id,
     name: req.body.name.toLowerCase(),
@@ -75,7 +74,7 @@ router.put(url+"/:id", authCheck, (req, res, next) => {
   })
 });
 
-router.delete(url+"/:id", authCheck, (req, res, next) =>{
+router.delete("/:id", authCheck, (req, res, next) =>{
   Food.deleteOne({_id: req.params.id}).then(() => {
     res.status(200).json({message: 'Food deleted successfully!'});
   });

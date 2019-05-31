@@ -3,7 +3,7 @@ const User = require('../models/user');
 const authCheck = require('../middleware/authCheck');
 const router = new express.Router();
 
-router.post('/admin/register', async (req, res) => {
+router.post('/register', async (req, res) => {
   let userCount = 0;
   await User.find().then(documents => userCount=documents.length);
   if(userCount === 0 ) {
@@ -19,7 +19,7 @@ router.post('/admin/register', async (req, res) => {
   res.status(400).json({message: "Registration not allowed"})
 });
 
-router.post('/admin', async (req, res) => {
+router.post('', async (req, res) => {
   try {
     const user = await User.findByCredentials(req.body.username, req.body.password);
     const token = await user.generateAuthToken();
@@ -31,7 +31,7 @@ router.post('/admin', async (req, res) => {
   }
 });
 
-router.post('/admin/logout', authCheck, async (req, res) => {
+router.post('/logout', authCheck, async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter((token) => {
       return token.token !== req.token
@@ -44,7 +44,7 @@ router.post('/admin/logout', authCheck, async (req, res) => {
   }
 });
 
-router.post('/admin/logoutAll', authCheck, async (req, res) => {
+router.post('/logoutAll', authCheck, async (req, res) => {
   try {
     req.user.tokens = [];
     await req.user.save();
