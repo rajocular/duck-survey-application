@@ -13,7 +13,7 @@
     <div *ngIf="loading">
       <mat-spinner></mat-spinner>
     </div>
-    <div *ngIf="!loading">
+    <div *ngIf="!loading && filteredCountries.length>0">
       <h6>Surveys so far = {{filteredCountries.length}}</h6>
       <h6>Number of ducks fed = {{duckCount['country']}}</h6>
       <h6>Popular Food = {{popularFood['country']}}</h6>
@@ -36,7 +36,7 @@
     <div *ngIf="loading">
       <mat-spinner></mat-spinner>
     </div>
-    <div *ngIf="!loading">
+    <div *ngIf="!loading && filteredCities.length>0">
       <h6>Surveys so far = {{filteredCities.length}}</h6>
       <h6>Number of ducks fed = {{duckCount['city']}}</h6>
       <h6>Popular Food = {{popularFood['city']}}</h6>
