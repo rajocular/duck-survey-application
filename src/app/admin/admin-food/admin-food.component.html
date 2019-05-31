@@ -37,7 +37,7 @@
   </div>
 </div>
 
-<div class="m-3 bg-light">
+<div class="m-3 bg-light" *ngIf="categories">
   <h4 class="p-3 flex-grow-1">Category List</h4>
   <mat-selection-list #categoryList>
     <mat-list-option *ngFor="let category of categories" (click)="onCategorySelect(categoryList)" [value]="category._id">
@@ -45,7 +45,8 @@
     </mat-list-option>
   </mat-selection-list>
 </div>
-<div class="m-3 bg-light">
+<h4 *ngIf="!categories">Nothing to show</h4>
+<div class="m-3 bg-light" *ngIf="foods">
   <h4 class="p-3 flex-grow-1">Food List</h4>
   <mat-selection-list #foodList>
     <mat-list-option *ngFor="let food of foods" (click)="onFoodSelect(foodList)" [value]="food._id" >
@@ -56,4 +57,5 @@
     </mat-list-option>
   </mat-selection-list>
 </div>
+<h4 *ngIf="!foods">Nothing to show</h4>
 

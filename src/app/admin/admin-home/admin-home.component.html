@@ -19,6 +19,7 @@
       <h6>Popular Food = {{popularFood['country']}}</h6>
       <h6>Peak hours = {{peakHour['country']}}:00</h6>
     </div>
+    <h5 *ngIf="filteredCountries.length<=0">Nothing to show</h5>
   </div>
 </div>
 
@@ -42,6 +43,7 @@
       <h6>Popular Food = {{popularFood['city']}}</h6>
       <h6>Peak hour = {{peakHour['city']}}:00</h6>
     </div>
+    <h5 *ngIf="filteredCities.length<=0">Nothing to show</h5>
   </div>
 </div>
 
