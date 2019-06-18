@@ -179,6 +179,26 @@ router.get("/:location/:name", authCheck, (req, res, next) => {
   })
 });
 
+router.put("/:id", authCheck, (req, res, next) => {
+  const surveyData = new Survey({
+    _id: req.params.id,
+    place: req.body.place.toLowerCase(),
+    city: req.body.city.toLowerCase(),
+    country: req.body.country.toLowerCase(),
+    foods: req.body.foods,
+    ducks: req.body.ducks,
+    days: req.body.days
+  });
 
+  Survey.updateOne({ _id : req.params.id }, surveyData).then(() =>{
+    res.status(200).json({
+      survey: surveyData
+    })
+  }).catch( error =>{
+    res.status(400).json({
+      error
+    })
+  })
+});
 
 module.exports = router;

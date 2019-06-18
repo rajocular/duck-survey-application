@@ -32,4 +32,16 @@ export class SurveyService{
     return this.http.get<{list: string[]}>(this.url+type)
   }
 
+  cleanSurveys(foodId) {
+    let updatedSurveys=[];
+    this.surveys.forEach((survey) => {
+      survey.foods = survey.foods.filter(item => item.food._id != foodId);
+      this.http.put<{survey}>(this.url+survey._id, survey).subscribe(result=>{
+        updatedSurveys.push(result.survey);
+      });
+    });
+    this.surveys = updatedSurveys;
+    this.surveyUpdateListener.next([...this.surveys])
+  }
+
 }

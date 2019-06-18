@@ -69,7 +69,7 @@ export class SurveyComponent implements OnInit {
     });
     this.foodForm = new FormGroup({
       food: new FormControl(''),
-      quantity: new FormControl(0)
+      quantity: new FormControl(0, Validators.required)
     });
     this.dayForm = new FormGroup({
       day: new FormControl(''),
@@ -85,9 +85,20 @@ export class SurveyComponent implements OnInit {
   }
 
   addItem(){
-    this.foods = this.foods.filter(item=>item != this.foodForm.value.food);
-    this.foodList.push(this.foodForm.value);
-    this.foodForm.markAsUntouched();
+    let foodSelected = this.foodForm.value.food;
+    let quantitySelected = this.foodForm.value.quantity;
+    let foodNotInList = true;
+    if(quantitySelected>0) {
+      this.foods = this.foods.filter(item => item != foodSelected);
+      if (this.foodList.length > 0)
+        this.foodList.forEach(item => {
+          if (item.food == foodSelected)
+            foodNotInList = false;
+        });
+      if(foodNotInList)
+        this.foodList.push(this.foodForm.value);
+      this.foodForm.markAsUntouched();
+    }
   }
 
   removeItem(removedItem){
@@ -98,7 +109,7 @@ export class SurveyComponent implements OnInit {
   addTiming() {
     let day = this.dayForm.value.day;
     let cleanTiming = this.cleanTime(this.dayForm.value.timing);
-    let dayNotInList = true
+    let dayNotInList = true;
 
     if(this.schedule.length>0)
       for(let i=0; i<this.schedule.length; i++){

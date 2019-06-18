@@ -32,17 +32,23 @@
           <mat-option *ngFor="let category of categories" [value]="category.name">{{category.name}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field  *ngIf="categorySelected != 'None'">
+      <mat-form-field class="pr-3"  *ngIf="categorySelected != 'None'">
         <mat-label>Food</mat-label>
         <mat-select formControlName="food" [(value)]="foodSelected" required >
           <mat-option value="None">None</mat-option>
           <mat-option *ngFor="let food of foodOptions" [value]="food">{{food.name}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field  class="px-3" *ngIf="categorySelected != 'None'">
+      <mat-form-field class="pr-3"  *ngIf="categorySelected != 'None' && foodSelected != 'None'">
         <input matInput type="number" placeholder="gms" formControlName="quantity" autocomplete="off">
+        <mat-error>Quantity required</mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary" *ngIf="categorySelected != 'None'" [disabled]="foodSelected == 'None'">Add</button>
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="categorySelected != 'None' && foodSelected != 'None'"
+        [disabled]="foodForm.controls.quantity.value == 0"
+      >Add</button>
     </form>
     <mat-chip-list>
       <mat-chip *ngFor="let item of foodList">
@@ -55,7 +61,7 @@
   <div class="my-3 p-5 bg-light">
     <h6>4. How often would you feed the ducks? (add all that matches)</h6>
     <form [formGroup]="dayForm" (ngSubmit)="addTiming()">
-      <div class="d-flex align-items-center">
+
         <mat-form-field>
           <mat-label>Day</mat-label>
           <mat-select formControlName="day" [(value)]="daySelected" required>
@@ -63,12 +69,12 @@
             <mat-option *ngFor="let choice of dayChoices" [value]="choice">{{choice}}</mat-option>
           </mat-select>
         </mat-form-field>
-
-        <ngb-timepicker formControlName="timing" class="px-3" *ngIf="daySelected != 'None'"></ngb-timepicker>
+      <div class="d-flex align-items-center">
+        <ngb-timepicker formControlName="timing" class="pr-3" *ngIf="daySelected != 'None'"></ngb-timepicker>
         <button mat-raised-button color="primary" *ngIf="daySelected != 'None'">Add</button>
       </div>
     </form>
-    <div *ngFor="let item of schedule">
+    <div *ngFor="let item of schedule" class="my-2">
       <h3>{{item.day}}</h3>
       <mat-chip-list>
         <mat-chip *ngFor="let timing of item.timings">

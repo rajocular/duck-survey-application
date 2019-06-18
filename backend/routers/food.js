@@ -2,17 +2,10 @@ const express = require('express');
 const authCheck = require('../middleware/authCheck');
 
 const Food = require('../models/food');
+const Survey = require('../models/survey');
 const router = express.Router();
 
 router.get("", (req, res, next) => {
-  // Food.aggregate([
-  //     {
-  //       $group: {_id:"$category", foods: { $push: "$name" }}
-  //     }
-  // ]).exec((err, orders) => {
-  //     res.json(orders);
-  // });
-
   Food.find().populate('category').sort('name').then(documents => {
     res.status(200).json({
       foods: documents
@@ -63,7 +56,7 @@ router.put("/:id", authCheck, (req, res, next) => {
     category: req.body.category
   });
 
-  Food.updateOne(food).then(food =>{
+  Food.updateOne({_id: req.params.id}, food).then(food =>{
     res.status(200).json({
       food
     })

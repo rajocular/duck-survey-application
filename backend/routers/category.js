@@ -38,7 +38,7 @@ router.put("/:id", authCheck, (req, res, next) => {
     name: req.body.name.toLowerCase()
   });
 
-  Category.updateOne(category).then(category =>{
+  Category.updateOne({_id : req.params.id }, category).then(category =>{
     res.status(200).json({
       category
     })

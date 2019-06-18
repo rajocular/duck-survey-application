@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Subject} from "rxjs";
 import {Food} from "../models/food.model";
+import {SurveyService} from "./survey.service";
 
 @Injectable({providedIn:'root'})
 export class FoodService{
@@ -9,7 +10,7 @@ export class FoodService{
   private foodList: Food[] = [];
   private foodUpdateListener = new Subject<Food[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private surveyService: SurveyService) {}
 
   getFoods() {
     this.http.get<{foods:Food[]}>(this.url).subscribe(data=>{
@@ -32,8 +33,9 @@ export class FoodService{
 
   deleteFood(id) {
     this.http.delete(this.url + id).subscribe(()=>{
-      this.foodList = this.foodList.filter(item => item._id !== id)
-      this.foodUpdateListener.next([...this.foodList])
+      this.foodList = this.foodList.filter(item => item._id !== id);
+      this.foodUpdateListener.next([...this.foodList]);
+      this.surveyService.cleanSurveys(id);
     })
   }
 

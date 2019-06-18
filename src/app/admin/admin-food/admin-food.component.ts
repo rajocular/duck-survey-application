@@ -3,6 +3,7 @@ import {FoodService} from "../../services/food.service";
 import {Category, Food} from "../../models/food.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CategoryService} from "../../services/category.service";
+import {SurveyService} from "../../services/survey.service";
 
 @Component({
   selector: 'app-admin-food',
@@ -12,6 +13,7 @@ import {CategoryService} from "../../services/category.service";
 export class AdminFoodComponent implements OnInit {
   foods: Food[];
   categories: Category[];
+  surveys;
   categoryForm: FormGroup;
   productForm: FormGroup;
 
@@ -21,13 +23,14 @@ export class AdminFoodComponent implements OnInit {
   foodSelected = [];
   categorySelected = [];
 
-  constructor(private foodService: FoodService, private categoryService: CategoryService) { }
+  constructor(private foodService: FoodService, private categoryService: CategoryService,
+              private surveyService: SurveyService) { }
 
   ngOnInit() {
     this.initForm();
     this.fetchCategories();
     this.fetchProducts();
-
+    this.fetchSurveys();
   }
 
   initForm() {
@@ -55,6 +58,13 @@ export class AdminFoodComponent implements OnInit {
       .subscribe(data=>{
         this.foods = data;
       })
+  }
+
+  fetchSurveys() {
+    this.surveyService.getSurveys();
+    this.surveyService.getSurveyListener().subscribe(surveys=>{
+      this.surveys = surveys;
+    })
   }
 
   submitCategory() {
