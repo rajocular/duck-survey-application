@@ -34,7 +34,7 @@
     "jsonwebtoken": "^8.5.1",
     "luxon": "^1.15.0",
     "mongodb": "^3.2.6",
-    "mongoose": "^5.5.11",
+    "mongoose": "^5.7.5",
     "ngx-material-timepicker": "^3.1.0",
     "node-geocoder": "^3.22.0",
     "rxjs": "~6.3.3",
